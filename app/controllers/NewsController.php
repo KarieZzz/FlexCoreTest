@@ -2,10 +2,16 @@
 
 namespace app\controllers;
 
-class NewsController
+use vendor\core\Controller;
+
+class NewsController extends Controller
 {
     public function actionIndex()
     {
-        echo 'Test News';
+        $result = $this->model->getNews();
+        $vars = [
+            'news' => $result,
+        ];
+        $this->view->render('Главная страница', $vars);
     }
 }

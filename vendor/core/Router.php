@@ -13,6 +13,9 @@ class Router
      * @var
      */
     protected $routes;
+    /**
+     * @var
+     */
     protected $params;
 
     /**
@@ -28,6 +31,10 @@ class Router
         }
     }
 
+    /**
+     * @param $route
+     * @param $segments
+     */
     public function add($route, $segments) {
         $route = '#^'.$route.'$#';
         $this->routes[$route] = $segments;
@@ -46,6 +53,9 @@ class Router
         }
     }
 
+    /**
+     * @return bool
+     */
     private function match()
     {
 
