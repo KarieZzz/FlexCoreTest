@@ -1,5 +1,8 @@
 <?php
 
+
+
+namespace vendor\core;
 /**
  * Class Router
  */
@@ -9,7 +12,8 @@ class Router
     /**
      * @var
      */
-    private $routes;
+    protected $routes;
+    protected $params;
 
     /**
      * Router constructor.
@@ -17,12 +21,20 @@ class Router
     public function __construct()
     {
 
-        $routePath = '../vendor/core/components/routes.php';
-        $this->routes = require_once($routePath);
+        $routePath = '../app/components/routes.php';
+        $arr = require_once($routePath);
+        foreach ($arr as $key => $val) {
+            $this->add($key, $val);
+        }
+    }
+
+    public function add($route, $segments) {
+        $route = '#^'.$route.'$#';
+        $this->routes[$route] = $segments;
     }
 
     /**
-     * Функция получения строки запроса
+     * Функция получения строки запросаsegments
      * @return string
      */
     private function getURI()
@@ -34,43 +46,57 @@ class Router
         }
     }
 
+    private function match()
+    {
+
+        $url = trim($_SERVER['REQUEST_URI'], '/');
+
+        foreach ($this->routes as $route => $params) {
+            if (preg_match($route, $url, $matches)) {
+                $this->params = $params;
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Функция обработки запроса, выполнение небходимого метода контроллера в зависимости от структуры запроса
      */
-    public function ShowResult()
+    public function run()
     {
-        //Получение строки запроса
-        $requestedURI = $this->getURI();
-        //Составление списка роутов, и проверка соответствия с запросом
-        foreach ($this->routes as $uriFromList => $pathForURI) {
-            //Если запрашиваемый адрес совпадает с адресом из списка роутов, выполнение действия(экшна) контроллера
-            if (preg_match("~$uriFromList~", $requestedURI)) {
 
-                //разделение названия контроллера и метода
-                $controllerAndAction = explode('/', $pathForURI);
+        //Если запрашиваемый адрес совпадает с адресом из списка роутов, выполнение действия(экшна) контроллера
+        if ($this->match()) {
 
-                //обработка и удаление первого элемента из массива, увеличение регистра первого символа
-                $controllerName = ucfirst(array_shift($controllerAndAction).'Controller');
-
-                //аналогичное действие для названия метода
-                $actionName = 'action'.ucfirst(array_shift($controllerAndAction));
-
-                //подключение контроллера в зависимости от запроса
-                $controllerFile = '../app/controllers/'.$controllerName.'.php';
-
-                //если искомый файл присутствует, включение его в класс роутера
-                if (file_exists($controllerFile)) {
-                    include_once($controllerFile);
+            //убрать костыль, использовать рефлексию
+            //$controllerAndActionWithParameters = explode('/', $this->segments);
+            //обработка и удаление первого элемента из массива, увеличение регистра первого символа
+            //$controllerName = ucfirst(array_shift($controllerAndActionWithParameters) . 'Controller');
+            //аналогичное действие для названия метода
+            //$actionName = 'action' . ucfirst(array_shift($controllerAndActionWithParameters));
+            //подключение контроллера в зависимости от запроса
+            $controllerFile = '../app/controllers/' .ucfirst($this->params['controller']).'Controller.php';
+            $path = '\app\controllers\\'.ucfirst($this->params['controller']).'Controller';
+            //если искомый файл присутствует, включение его в класс роутера
+            if (class_exists($path)) {
+                $action = 'action'.ucfirst($this->params['action']);
+                if (method_exists($path, $action)) {
+                    //$controller = new $controllerName($this->segments);
+                    //$controller->$actionName();
+                    $controller = new $path($this->params);
+                    $controller->$action();
+                } else {
+                    echo 'lol';
                 }
-
-                //создание объекта, вызов метода
-                $controllerObj = new $controllerName;
-                $result = $controllerObj->$actionName();
-                if ($result != null) {
-                    break;
-                }
+            } else {
+                echo $path;
             }
+
+        } else {
+            echo 'cheburek';
         }
+
 
     }
 }
