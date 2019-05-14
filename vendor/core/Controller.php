@@ -7,22 +7,56 @@ use vendor\core\View;
 
 abstract class Controller
 {
-    public $route;
-    public $view;
+    /**
+     * @var
+     */
+    protected $route;
+    protected $view;
+    protected $model;
 
-
-    public function __construct($route)
+    public function __construct(array $route)
     {
-        $this->route = $route;
-        $this->view = new View($route);
-        $this->model = $this->loadModel($route['controller']);
+        $this->setRoute($route);
+        $this->setView(new View($route));
+        //$this->setModel($this->loadModel($route['controller']));
     }
 
-    public function loadModel($name)
+    /*public function loadModel(string $name)
     {
         $path = 'app\models\\' . ucfirst($name);
         if (class_exists($path)) {
             return new $path;
         }
+    }*/
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    public function setRoute(array $route)
+    {
+        $this->route = $route;
+        return $this;
+    }
+
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    public function setView(View $view)
+    {
+        $this->view = $view;
+        return $this;
+    }
+
+    public function getModel(){
+        return $this->model;
+    }
+
+    public function setModel($model){
+        $this->model = $model;
+        return $this;
     }
 }

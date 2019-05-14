@@ -1,5 +1,6 @@
 <?php
 
+//namespace app\components;
 
 return [
     'driver' => 'mysql',

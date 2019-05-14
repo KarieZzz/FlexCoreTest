@@ -15,7 +15,7 @@ abstract class Model
     /**
      * @var Db
      */
-    public $db;
+    protected $db;
 
     /**
      * Model constructor.

@@ -63,6 +63,7 @@ class Router
 
         foreach ($this->routes as $route => $params) {
             if (preg_match($route, $url, $matches)) {
+
                 $this->params = $params;
                 return true;
             }
@@ -90,7 +91,9 @@ class Router
             $path = '\app\controllers\\'.ucfirst($this->params['controller']).'Controller';
             //если искомый файл присутствует, включение его в класс роутера
             if (class_exists($path)) {
-                $action = 'action'.ucfirst($this->params['action']);
+                $action = (count($_POST)>0)?
+                    'postAction'.ucfirst($this->params['action'])
+                    :'action'.ucfirst($this->params['action']);
                 if (method_exists($path, $action)) {
                     //$controller = new $controllerName($this->segments);
                     //$controller->$actionName();
@@ -106,7 +109,5 @@ class Router
         } else {
             View::errorCode(404);;
         }
-
-
     }
 }

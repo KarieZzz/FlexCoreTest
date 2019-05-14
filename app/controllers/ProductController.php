@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use vendor\core\Controller;
 
-//TODO:Убрать мусор, доделать автозагрузку, сделать наследование, подключить БД
+//TODO:Убрать мусор, переделать автозагрузку(есть автоматический метод), обработать put delete update запросы
 class ProductController extends  Controller
 {
     public function actionList()

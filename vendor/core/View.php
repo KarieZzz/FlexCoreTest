@@ -45,8 +45,8 @@ class View
             ob_start();
             require $path;
             $content = ob_get_clean();
-            $baseLayout = $this->setLayout()->getLayout();
-            require '../app/views/layouts/' . $baseLayout . '.php';
+            $layout = $this->setLayout()->getLayout();
+            require '../app/views/layouts/' . $layout . '.php';
         }
     }
 
