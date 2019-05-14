@@ -13,24 +13,24 @@ class View
     /**
      * @var string
      */
-    public $path;
+    protected $path;
     /**
      * @var
      */
-    public $route;
+    protected $route;
     /**
      * @var string
      */
-    public $layout = 'default';
+    protected $layout;
 
     /**
      * View constructor.
      * @param $route
      */
-    public function __construct($route)
+    public function __construct(array $route)
     {
-        $this->route = $route;
-        $this->path = $route['controller'] . '/' . $route['action'];
+        $this->setRoute($route);
+        $this->setPath($route['controller'] . '/' . $route['action']);
     }
 
     /**
@@ -45,7 +45,8 @@ class View
             ob_start();
             require $path;
             $content = ob_get_clean();
-            require '../app/views/layouts/' . $this->layout . '.php';
+            $baseLayout = $this->setLayout()->getLayout();
+            require '../app/views/layouts/' . $baseLayout . '.php';
         }
     }
 
@@ -87,4 +88,39 @@ class View
     {
         exit(json_encode(['url' => $url]));
     }
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    public function setRoute(array $route)
+    {
+        $this->route = $route;
+        return $this;
+    }
+
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    public function setLayout($layout = 'default')
+    {
+        $this->layout = $layout;
+        return $this;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+
 }

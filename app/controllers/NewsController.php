@@ -8,9 +8,10 @@ class NewsController extends Controller
 {
     public function actionIndex()
     {
+        //$vars = ['lol'];
         $result = $this->model->getNews();
         $vars = [
-            'news' => $result,
+            //'news' => $result,
         ];
         $this->view->render('Главная страница', $vars);
     }

@@ -20,14 +20,7 @@ class Db
      */
     public function __construct()
     {
-        $config = require '../app/components/db.php';
-        $this->db = new PDO(
-            'mysql:host='
-            . $config['host'].';port='.$config['port']
-            . ';dbname='
-            . $config['name'] . '',
-            $config['user'],
-            $config['password']);
+        $this->connectToDB('../app/components/db.php');
     }
 
     /**
@@ -67,5 +60,18 @@ class Db
     {
         $result = $this->query($sql, $params);
         return $result->fetchColumn();
+    }
+
+    private function connectToDB(string $configPath)
+    {
+        $config = require $configPath;
+        $this->db= new PDO(
+            $config['driver'].':host='
+            . $config['host'].';port='.$config['port']
+            .';unix_socket='.$config['unix_socket']
+            . ';dbname='.$config['name'].'',
+            $config['user'],
+            $config['password']);
+
     }
 }

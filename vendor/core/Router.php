@@ -79,14 +79,14 @@ class Router
         //Если запрашиваемый адрес совпадает с адресом из списка роутов, выполнение действия(экшна) контроллера
         if ($this->match()) {
 
-            //убрать костыль, использовать рефлексию
+            //убрать костыль
             //$controllerAndActionWithParameters = explode('/', $this->segments);
             //обработка и удаление первого элемента из массива, увеличение регистра первого символа
             //$controllerName = ucfirst(array_shift($controllerAndActionWithParameters) . 'Controller');
             //аналогичное действие для названия метода
             //$actionName = 'action' . ucfirst(array_shift($controllerAndActionWithParameters));
             //подключение контроллера в зависимости от запроса
-            $controllerFile = '../app/controllers/' .ucfirst($this->params['controller']).'Controller.php';
+            //$controllerFile = '../app/controllers/' .ucfirst($this->params['controller']).'Controller.php';
             $path = '\app\controllers\\'.ucfirst($this->params['controller']).'Controller';
             //если искомый файл присутствует, включение его в класс роутера
             if (class_exists($path)) {
@@ -97,14 +97,14 @@ class Router
                     $controller = new $path($this->params);
                     $controller->$action();
                 } else {
-                    echo 'lol';
+                    View::errorCode(404);;
                 }
             } else {
-                echo $path;
+                View::errorCode(404);;
             }
 
         } else {
-            echo 'cheburek';
+            View::errorCode(404);;
         }
 
 
