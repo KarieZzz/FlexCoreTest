@@ -18,6 +18,6 @@ docker exec -ti flexcoretest_mysql_1 bash
 
 9-Выполнить команду mysql -u app -p -D app
 
-10-Ввести команду source newsproduct.sql
+10-Ввести команду source newsproduct.sql(если файла не будет, необходимо создать файл newsproduct.sql в папке проекта storage/docker/mysql, ее содержимое можно скопировать отсюда по этому же пути)
 
 
