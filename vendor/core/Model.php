@@ -17,7 +17,7 @@ abstract class Model
      */
     protected $db;
 
-    /**
+    /**Пробовал без класса DB, почему-то возникали ошибки PDO
      * Model constructor.
      */
     public function __construct()

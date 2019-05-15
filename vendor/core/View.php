@@ -33,7 +33,7 @@ class View
         $this->setPath($route['controller'] . '/' . $route['action']);
     }
 
-    /**
+    /**обработка страницы, очистка буфера, подключение вьюхи
      * @param $title
      * @param array $vars
      */
@@ -89,33 +89,54 @@ class View
         exit(json_encode(['url' => $url]));
     }
 
+    /**
+     * @return mixed
+     */
     public function getRoute()
     {
         return $this->route;
     }
 
+    /**
+     * @param array $route
+     * @return $this
+     */
     public function setRoute(array $route)
     {
         $this->route = $route;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLayout()
     {
         return $this->layout;
     }
 
+    /**
+     * @param string $layout
+     * @return $this
+     */
     public function setLayout($layout = 'default')
     {
         $this->layout = $layout;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPath()
     {
         return $this->path;
     }
 
+    /**
+     * @param string $path
+     * @return $this
+     */
     public function setPath(string $path)
     {
         $this->path = $path;

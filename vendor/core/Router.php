@@ -1,7 +1,6 @@
 <?php
 
 
-
 namespace vendor\core;
 /**
  * Class Router
@@ -35,25 +34,13 @@ class Router
      * @param $route
      * @param $segments
      */
-    public function add($route, $segments) {
-        $route = '#^'.$route.'$#';
+    public function add($route, $segments)
+    {
+        $route = '#^' . $route . '$#';
         $this->routes[$route] = $segments;
     }
 
-    /**
-     * Функция получения строки запросаsegments
-     * @return string
-     */
-    private function getURI()
-    {
-        //Если строка запроса не пустая
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            //Возвращение строки из массива, с разделителем
-            return trim($_SERVER['REQUEST_URI'], '/');
-        }
-    }
-
-    /**
+    /**Проверка на совпадение с таблицей маршрутов
      * @return bool
      */
     private function match()
@@ -77,26 +64,15 @@ class Router
     public function run()
     {
 
-        //Если запрашиваемый адрес совпадает с адресом из списка роутов, выполнение действия(экшна) контроллера
+        //Если запрашиваемый адрес совпадает с адресом из списка роутов, выполнение метода(экшна) контроллера
         if ($this->match()) {
-
-            //убрать костыль
-            //$controllerAndActionWithParameters = explode('/', $this->segments);
-            //обработка и удаление первого элемента из массива, увеличение регистра первого символа
-            //$controllerName = ucfirst(array_shift($controllerAndActionWithParameters) . 'Controller');
-            //аналогичное действие для названия метода
-            //$actionName = 'action' . ucfirst(array_shift($controllerAndActionWithParameters));
-            //подключение контроллера в зависимости от запроса
-            //$controllerFile = '../app/controllers/' .ucfirst($this->params['controller']).'Controller.php';
-            $path = '\app\controllers\\'.ucfirst($this->params['controller']).'Controller';
-            //если искомый файл присутствует, включение его в класс роутера
+            $path = '\app\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
+            //если искомый класс присутствует, обработка и инициализация контроллера
             if (class_exists($path)) {
-                $action = (count($_POST)>0)?
-                    'postAction'.ucfirst($this->params['action'])
-                    :'action'.ucfirst($this->params['action']);
+                $action = (count($_POST) > 0) ?
+                    'postAction' . ucfirst($this->params['action'])
+                    : 'action' . ucfirst($this->params['action']);
                 if (method_exists($path, $action)) {
-                    //$controller = new $controllerName($this->segments);
-                    //$controller->$actionName();
                     $controller = new $path($this->params);
                     $controller->$action();
                 } else {

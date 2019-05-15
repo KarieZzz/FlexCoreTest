@@ -18,7 +18,7 @@
 </form>
 <p>..или перейти на:</p>
 <ul>
-    <li><a href="https://localhost:8080/news/index">Главную страницу сайта.</a>
+    <li><a href="https://localhost:8080/">Главную страницу сайта.</a>
 </ul>
 </body>
 </html>

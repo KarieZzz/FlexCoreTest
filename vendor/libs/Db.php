@@ -23,7 +23,7 @@ class Db
         $this->connectToDB('../app/components/db.php');
     }
 
-    /**
+    /**Запрос в БД, параметры в виде пустого массива для защиты от инъекций(PDO::prepare)
      * @param $sql
      * @param array $params
      * @return bool|\PDOStatement
@@ -62,6 +62,11 @@ class Db
         return $result->fetchColumn();
     }
 
+
+    /**Подключение к БД
+     * @param string $configPath
+     * @return $this
+     */
     private function connectToDB(string $configPath)
     {
         $config = require $configPath;
@@ -72,6 +77,7 @@ class Db
             . ';dbname='.$config['name'].'',
             $config['user'],
             $config['password']);
-
+        return $this;
     }
+
 }

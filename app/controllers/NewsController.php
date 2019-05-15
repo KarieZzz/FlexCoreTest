@@ -5,19 +5,29 @@ namespace app\controllers;
 use vendor\core\Controller;
 use app\models\News;
 
+/**
+ * Class NewsController
+ * @package app\controllers
+ */
 class NewsController extends Controller
 {
+    /**Метод подключения модели, передача результата запроса во вьюху, вывод вьюхи
+     *
+     */
     public function actionIndex()
     {
-        //$vars = ['lol'];
-        $this->setModel(new News);
-        $result = $this->model->getNews();
+
+        $newsModel=new News;
+        $result = $newsModel->getNews();
         $vars = [
-            'news' => $result,
+            $result,
         ];
-        $this->view->render('Главная страница', $vars);
+        $this->view->render('Страница новостей', $vars);
     }
 
+    /**
+     *
+     */
     public function postActionIndex()
     {
         $vars=[
