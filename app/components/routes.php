@@ -7,4 +7,9 @@ return ['news/index' => [
         'controller' => 'product',
         'action' => 'list',
     ],
+
+    '' =>[
+        'controller' => 'index',
+        'action' => 'index',
+    ],
 ];

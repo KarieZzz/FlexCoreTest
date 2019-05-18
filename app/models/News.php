@@ -5,6 +5,10 @@ namespace app\models;
 
 use vendor\core\Model;
 
+/**
+ * Class News
+ * @package app\models
+ */
 class News extends Model
 {
     /**
@@ -13,7 +17,7 @@ class News extends Model
     public function getNews()
     {
 
-        $result = $this->db->row('SELECT title, description FROM news');
+        $result = $this->db->row('SELECT description FROM news');
         return $result;
     }
 }

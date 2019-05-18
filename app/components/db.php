@@ -1,5 +1,6 @@
 <?php
 
+//namespace app\components;
 
 return [
     'driver' => 'mysql',
@@ -8,5 +9,5 @@ return [
     'name' => 'app',
     'user' => 'app',
     'password' => 'secret',
-    'unix_socket'    => '/var/run/mysqld/mysqld.sock',
+    'unix_socket' => '/var/run/mysqld/mysqld.sock',
 ];
